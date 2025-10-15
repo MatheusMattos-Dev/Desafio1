@@ -18,14 +18,30 @@
         <div class="collapse navbar-collapse" id="navigation">
             <ul class="navbar-nav ml-auto">
                 <li class="dropdown nav-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle nav-link d-flex align-items-center" data-toggle="dropdown" style="gap: .5rem;">
                         <div class="photo">
-                            <img src="{{ asset('white') }}/img/anime3.png" alt="{{ __('Profile Photo') }}">
+                            @php
+                            $user = auth()->user();
+                            $photoPath = $user->profile_photo_path ?? null;
+                            $photoUrl = $photoPath
+                            ? asset('storage/' . $photoPath)
+                            : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=e14eca&color=fff';
+                            $firstName = explode(' ', trim($user->name))[0] ?? $user->name;
+                            @endphp
+
+                            <img src="{{ $photoUrl }}" alt="Foto de perfil"
+                                class="rounded-circle"
+                                style="width:33px; height:33px; object-fit:cover; border:2px solid #e14eca;">
                         </div>
-                        <b class="caret d-none d-lg-block d-xl-block"></b>
-                        <p class="d-lg-none">{{ __('Log out') }}</p>
+
+                        <span class="text-dark font-weight-bold d-none d-lg-inline">
+                            {{ ucfirst($firstName) }}
+                        </span>
+
+                        <b class="caret d-none d-lg-block d-xl-block" style="margin-left:15px;"></b>
+                        <p class="d-lg-none mb-0">{{ __('Perfil') }}</p>
                     </a>
-                    <ul class="dropdown-menu dropdown-navbar">
+                    <ul class="dropdown-menu dropdown-navbar" style="margin-left:71px;">
                         <li class="nav-link">
                             <a href="{{ route('profile.edit') }}" class="nav-item dropdown-item">{{ __('Profile') }}</a>
                         </li>
@@ -47,7 +63,7 @@
                 <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="{{ __('SEARCH') }}">
                 <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}">
                     <i class="tim-icons icon-simple-remove"></i>
-              </button>
+                </button>
             </div>
         </div>
     </div>

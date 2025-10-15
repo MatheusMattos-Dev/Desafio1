@@ -11,7 +11,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('news', NewsController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); 
+    Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('profile.photo');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

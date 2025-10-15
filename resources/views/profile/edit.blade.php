@@ -1,106 +1,60 @@
-@extends('layouts.app', ['page' => __('User Profile'), 'pageSlug' => 'profile'])
+@extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="title">{{ _('Edit Profile') }}</h5>
-                </div>
-                <form method="post" action="{{ route('profile.update') }}" autocomplete="off">
-                    <div class="card-body">
-                            @csrf
-                            @method('put')
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
 
-                            @include('alerts.success')
-
-                            <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                                <label>{{ _('Name') }}</label>
-                                <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ _('Name') }}" value="{{ old('name', auth()->user()->name) }}">
-                                @include('alerts.feedback', ['field' => 'name'])
-                            </div>
-
-                            <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                                <label>{{ _('Email address') }}</label>
-                                <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ _('Email address') }}" value="{{ old('email', auth()->user()->email) }}">
-                                @include('alerts.feedback', ['field' => 'email'])
-                            </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-fill btn-primary">{{ _('Save') }}</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="title">{{ _('Password') }}</h5>
-                </div>
-                <form method="post" action="{{ route('profile.password') }}" autocomplete="off">
-                    <div class="card-body">
-                        @csrf
-                        @method('put')
-
-                        @include('alerts.success', ['key' => 'password_status'])
-
-                        <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
-                            <label>{{ __('Current Password') }}</label>
-                            <input type="password" name="old_password" class="form-control{{ $errors->has('old_password') ? ' is-invalid' : '' }}" placeholder="{{ __('Current Password') }}" value="" required>
-                            @include('alerts.feedback', ['field' => 'old_password'])
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                            <label>{{ __('New Password') }}</label>
-                            <input type="password" name="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('New Password') }}" value="" required>
-                            @include('alerts.feedback', ['field' => 'password'])
-                        </div>
-                        <div class="form-group">
-                            <label>{{ __('Confirm New Password') }}</label>
-                            <input type="password" name="password_confirmation" class="form-control" placeholder="{{ __('Confirm New Password') }}" value="" required>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-fill btn-primary">{{ _('Change password') }}</button>
-                    </div>
-                </form>
-            </div>
+      <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <h5 class="mb-0">Meu Perfil</h5>
         </div>
-        <div class="col-md-4">
-            <div class="card card-user">
-                <div class="card-body">
-                    <p class="card-text">
-                        <div class="author">
-                            <div class="block block-one"></div>
-                            <div class="block block-two"></div>
-                            <div class="block block-three"></div>
-                            <div class="block block-four"></div>
-                            <a href="#">
-                                <img class="avatar" src="{{ asset('white') }}/img/emilyz.jpg" alt="">
-                                <h5 class="title">{{ auth()->user()->name }}</h5>
-                            </a>
-                            <p class="description">
-                                {{ _('Ceo/Co-Founder') }}
-                            </p>
-                        </div>
-                    </p>
-                    <div class="card-description">
-                        {{ _('Do not be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...') }}
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="button-container">
-                        <button class="btn btn-icon btn-round btn-facebook">
-                            <i class="fab fa-facebook"></i>
-                        </button>
-                        <button class="btn btn-icon btn-round btn-twitter">
-                            <i class="fab fa-twitter"></i>
-                        </button>
-                        <button class="btn btn-icon btn-round btn-google">
-                            <i class="fab fa-google-plus"></i>
-                        </button>
-                    </div>
-                </div>
+
+        <div class="card-body">
+          @if (session('status'))
+            <div class="alert alert-success mb-3">{{ session('status') }}</div>
+          @endif
+
+          <div class="d-flex align-items-center mb-4">
+            @php
+              $photoPath = auth()->user()->profile_photo_path;
+              $photoUrl = $photoPath ? asset('storage/'.$photoPath) : 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->name).'&background=e14eca&color=fff';
+            @endphp
+
+            <img src="{{ $photoUrl }}" alt="Foto de perfil"
+                 class="rounded-circle mr-3" style="width:80px;height:80px;object-fit:cover;">
+
+            <form action="{{ route('profile.photo') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center">
+              @csrf
+              <input type="file" name="photo" accept="image/*" class="form-control-file" required>
+              <button class="btn btn-primary" type="submit">Alterar</button>
+            </form>
+          </div>
+
+          @error('photo')
+            <div class="text-danger small mb-3">{{ $message }}</div>
+          @enderror
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="text-muted mb-1">Nome</label>
+              <div class="form-control-plaintext font-weight-bold">{{ auth()->user()->name }}</div>
             </div>
+            <div class="col-md-6 mb-3">
+              <label class="text-muted mb-1">E-mail</label>
+              <div class="form-control-plaintext font-weight-bold">{{ auth()->user()->email }}</div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="text-muted mb-1">Desde</label>
+              <div class="form-control-plaintext">{{ auth()->user()->created_at?->format('d/m/Y H:i') }}</div>
+            </div>
+          </div>
+
+          <small class="text-muted">Em breve: edição de dados e outras preferências.</small>
         </div>
+      </div>
+
     </div>
+  </div>
+</div>
 @endsection
