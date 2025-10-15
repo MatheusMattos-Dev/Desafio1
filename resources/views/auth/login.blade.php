@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'login-page', 'page' => __('Login'), 'contentClass' => 'login-page'])
 
 @section('content')
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="d-flex justify-content-center align-items-center" style="min-height:20vh;">
         <div class="col-lg-4 col-md-6">
             <form class="form" method="POST" action="{{ route('login') }}">
                 @csrf
@@ -53,7 +53,7 @@
                         @if (Route::has('register'))
                             <div class="text-center">
                                 <small class="text-muted">{{ __('Ainda não tem conta?') }}</small>
-                                <a href="{{ route('register') }}" class="link footer-link">{{ __('Criar conta') }}</a>
+                                <a href="{{ route('register') }}" class="link footer-link">{{ __('CRIAR CONTA') }}</a>
                             </div>
                         @endif
                     </div>
