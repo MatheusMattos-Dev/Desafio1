@@ -40,10 +40,10 @@
                         </div>
 
                         {{-- Lembrar-me --}}
-                        <div class="form-check d-flex justify-content-center align-items-center mt-3">
-                            <input class="form-check-input me-2" type="checkbox" name="remember" id="remember"
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                 {{ old('remember') ? 'checked' : '' }} style="transform: scale(1.1);">
-                            <label class="form-check-label mb-0" for="remember">{{ __('Manter conectado') }}</label>
+                            <label style="cursor: pointer; " for="remember">{{ __('Manter conectado') }}</label>
                         </div>
                     </div>
 
