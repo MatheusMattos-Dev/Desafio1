@@ -1,14 +1,12 @@
-<nav class="navbar navbar-expand-lg fixed-top shadow-sm" 
-     style="background:#fff; border-bottom:1px solid #eee; z-index:1030;">
+<nav class="navbar navbar-expand-lg fixed-top shadow-sm"
+  style="background:#fff; border-bottom:1px solid #eee; z-index:1030;">
   <div class="container-fluid d-flex justify-content-between align-items-center">
 
-    {{-- Logo / Marca --}}
-    <a class="navbar-brand fw-bold" href="{{ route('news.index') }}" 
-       style="color:#e14eca; font-size:1.1rem;">
+    <a class="navbar-brand fw-bold" href="{{ route('news.index') }}"
+      style="color:#e14eca; font-size:1.1rem;">
       {{ $page ?? 'Painel de Notícias' }}
     </a>
 
-    {{-- Botão para mobile --}}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarGuest"
       aria-controls="navbarGuest" aria-expanded="false" aria-label="Toggle navigation"
       style="border:none; background:transparent;">
@@ -17,30 +15,26 @@
       <span class="navbar-toggler-bar navbar-kebab" style="background:#e14eca;"></span>
     </button>
 
-    {{-- Menu --}}
     <div class="collapse navbar-collapse justify-content-end" id="navbarGuest">
       <ul class="navbar-nav align-items-center">
-        {{-- Voltar para login --}}
         <li class="nav-item">
-          <a href="{{ route('login') }}" class="nav-link text-muted" 
-             style="transition:.3s; font-weight:500;">
+          <a href="{{ route('login') }}" class="nav-link text-muted"
+            style="transition:.3s; font-weight:500;">
             <i class="tim-icons icon-minimal-left" style="color:#ba54f5;"></i>
             {{ __('Voltar para o Login') }}
           </a>
         </li>
 
-        {{-- Criar conta (guest) --}}
         @guest
         <li class="nav-item">
-          <a href="{{ route('register') }}" class="nav-link text-muted" 
-             style="transition:.3s; font-weight:500;">
+          <a href="{{ route('register') }}" class="nav-link text-muted"
+            style="transition:.3s; font-weight:500;">
             <i class="tim-icons icon-laptop" style="color:#ba54f5;"></i>
             {{ __('Criar Conta') }}
           </a>
         </li>
         @endguest
 
-        {{-- Perfil e sair (auth) --}}
         @auth
         <li class="nav-item">
           <a href="{{ route('profile.edit') }}" class="nav-link text-muted">
@@ -51,8 +45,8 @@
         <li class="nav-item">
           <form method="POST" action="{{ route('logout') }}" class="d-inline">
             @csrf
-            <button type="submit" class="nav-link btn btn-link m-0 p-0 text-muted" 
-                    style="transition:.3s; font-weight:500;">
+            <button type="submit" class="nav-link btn btn-link m-0 p-0 text-muted"
+              style="transition:.3s; font-weight:500;">
               <i class="tim-icons icon-button-power" style="color:#ba54f5;"></i>
               {{ __('Sair') }}
             </button>
