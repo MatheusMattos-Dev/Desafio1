@@ -21,10 +21,9 @@
 
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav ml-auto">
-        {{-- Voltar para Notícias --}}
         <li class="nav-item">
           <a href="{{ route('news.index') }}" class="nav-link text-primary">
-            <i class="tim-icons icon-minimal-left"></i> {{ __('Voltar para Notícias') }}
+            <i class="tim-icons icon-minimal-left"></i> {{ __('Voltar para Tela de Login') }}
           </a>
         </li>
 
@@ -32,11 +31,6 @@
           <li class="nav-item">
             <a href="{{ route('register') }}" class="nav-link">
               <i class="tim-icons icon-laptop"></i> {{ __('Criar conta') }}
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href{{ route('login') }} class="nav-link">
-              <i class="tim-icons icon-single-02"></i> {{ __('Entrar') }}
             </a>
           </li>
         @endguest
