@@ -12,12 +12,12 @@ class News extends Model
 
     protected $fillable = ['title', 'body', 'published_at'];
 
-    // ⬇️ ADICIONE: cast para datetime
     protected $casts = [
         'published_at' => 'datetime',
+        'id'           => 'integer',
+        'user_id'      => 'integer',
     ];
 
-    // ⬇️ ADICIONE: mutator para converter o valor do form
     public function setPublishedAtAttribute($value): void
     {
         $this->attributes['published_at'] = $value
@@ -36,12 +36,19 @@ class News extends Model
         $like = '%' . str_replace('%', '\\%', $term) . '%';
         return $query->where(function ($q) use ($like) {
             $q->where('title', 'like', $like)
-              ->orWhere('body', 'like', $like);
+                ->orWhere('body', 'like', $like);
         });
     }
 
     public function scopeOwnedBy($query, int $userId)
     {
         return $query->where('user_id', $userId);
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where($field ?? $this->getRouteKeyName(), $value)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
     }
 }
